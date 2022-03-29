@@ -281,10 +281,10 @@ class Imapsync
             $command .= ' --nossl2';
         }
         if (self::$xoauth1) {
-            $command .= ' --xoauth1';
+            $command .= ' --authmech1 XOAUTH2';
         }
         if (self::$xoauth2) {
-            $command .= ' --xoauth2';
+            $command .= ' --authmech2 XOAUTH2';
         }
         if (self::$authUser1) {
             $command .= ' --authuser1 "' . self::$authUser1 . '"';
