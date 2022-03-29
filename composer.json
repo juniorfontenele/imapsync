@@ -1,0 +1,18 @@
+{
+    "name": "juniorfontenele/imapsync",
+    "description": "PHP Wrapper to Imapsync",
+    "version": "1.0.0",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "JuniorFontenele\\Imapsync\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Junior Fontenele",
+            "email": "lcbfjr@gmail.com"
+        }
+    ],
+    "require": {}
+}
