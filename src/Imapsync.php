@@ -52,6 +52,7 @@ class Imapsync
     protected static ?string $user2 = null;
     protected static ?string $password1 = null;
     protected static ?string $password2 = null;
+    protected static ?string $pipemess = null;
     protected static bool $nossl1 = false;
     protected static bool $nossl2 = false;
     protected static bool $xoauth1 = false;
@@ -109,6 +110,12 @@ class Imapsync
     public function logfilename(?string $logfilename): Imapsync
     {
         self::$logfilename = $logfilename;
+        return $this;
+    }
+
+    public function pipemess(?string $pipemess): Imapsync
+    {
+        self::$pipemess = $pipemess;
         return $this;
     }
 
@@ -268,6 +275,9 @@ class Imapsync
         if (self::$logfilename) {
             $command .= ' --logfile "' . self::$logfilename . '"';
         }
+        if (self::$pipemess) {
+          $command .= ' --pipemess "' . self::$pipemess . '"';
+      }
         if (self::$timeout1) {
             $command .= ' --timeout1 ' . self::$timeout1;
         }
