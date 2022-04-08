@@ -314,9 +314,6 @@ class Imapsync
         if (self::$office2) {
           $command .= ' --office2';
         }
-        if (self::$office1) {
-          $command .= ' --office1';
-        }
         if (self::$nofoldersizes) {
           $command .= ' --nofoldersizes';
         }
