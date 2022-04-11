@@ -53,6 +53,8 @@ class Imapsync
     protected static ?string $password1 = null;
     protected static ?string $password2 = null;
     protected static ?string $pipemess = null;
+    protected static ?string $truncmess = null;
+    protected static ?string $appendlimit = null;
     protected static bool $nossl1 = false;
     protected static bool $nossl2 = false;
     protected static bool $xoauth1 = false;
@@ -64,7 +66,9 @@ class Imapsync
     protected static bool $nofoldersizes = false;
     protected static bool $nofoldersizesatend = false;
     protected static bool $excludeTrashFolders = false;
+    protected static bool $filterbuggyflags = true;
     protected static ?int $maxsleep = null;
+    protected static ?int $errorsmax = null;
     protected static string $command;
     protected static string $imapsyncBinary;
     protected static ?Imapsync $_instance = null;
@@ -258,9 +262,33 @@ class Imapsync
         return $this;
     }
 
+    public function filterbuggyflags(bool $filterbuggyflags = true): Imapsync
+    {
+        self::$filterbuggyflags = $filterbuggyflags;
+        return $this;
+    }
+
     public function maxsleep(int $maxsleep = 2): Imapsync
     {
         self::$maxsleep = $maxsleep;
+        return $this;
+    }
+
+    public function errorsmax(int $errorsmax = 50): Imapsync
+    {
+        self::$errorsmax = $errorsmax;
+        return $this;
+    }
+
+    public function truncmess(string $truncmess = '35_651_584'): Imapsync
+    {
+        self::$truncmess = $truncmess;
+        return $this;
+    }
+
+    public function appendlimit(string $appendlimit = '1_000_000_000_000')
+    {
+        self::$appendlimit = $appendlimit;
         return $this;
     }
 
@@ -330,9 +358,22 @@ class Imapsync
         if (self::$excludeTrashFolders) {
           $command .= " --exclude '^Lixeira|^Trash|^Deleted Items'";
         }
+        if (self::$filterbuggyflags) {
+          $command .= ' --filterbuggyflags';
+        }
         if (self::$maxsleep) {
           $command .= ' --maxsleep ' . self::$maxsleep;
         }
+        if (self::$errorsmax) {
+          $command .= ' --errorsmax ' . self::$errorsmax;
+        }
+        if (self::$truncmess) {
+          $command .= ' --truncmess ' . self::$truncmess;
+        }
+        if (self::$appendlimit) {
+          $command .= ' --appendlimit ' . self::$appendlimit;
+        }
+        $command .= ' --noemailreport2';
         $command .= ' --host1 "' . self::$host1 . '"';
         $command .= ' --host2 "' . self::$host2 . '"';
         $command .= ' --user1 "' . self::$user1 . '"';
