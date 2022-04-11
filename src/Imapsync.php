@@ -63,6 +63,7 @@ class Imapsync
     protected static bool $office2 = false;
     protected static bool $nofoldersizes = false;
     protected static bool $nofoldersizesatend = false;
+    protected static bool $excludeTrashFolders = false;
     protected static ?int $maxsleep = null;
     protected static string $command;
     protected static string $imapsyncBinary;
@@ -251,6 +252,12 @@ class Imapsync
         return $this;
     }
 
+    public function excludeTrashFolders(bool $excludeTrashFolders = true): Imapsync
+    {
+        self::$excludeTrashFolders = $excludeTrashFolders;
+        return $this;
+    }
+
     public function maxsleep(int $maxsleep = 2): Imapsync
     {
         self::$maxsleep = $maxsleep;
@@ -319,6 +326,9 @@ class Imapsync
         }
         if (self::$nofoldersizesatend) {
           $command .= ' --nofoldersizesatend';
+        }
+        if (self::$excludeTrashFolders) {
+          $command .= " --exclude '^Lixeira|^Trash|^Deleted Items'";
         }
         if (self::$maxsleep) {
           $command .= ' --maxsleep ' . self::$maxsleep;
