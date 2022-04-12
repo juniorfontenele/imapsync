@@ -373,6 +373,7 @@ class Imapsync
         if (self::$appendlimit) {
           $command .= ' --appendlimit ' . self::$appendlimit;
         }
+        $command .= ' --noemailreport1';
         $command .= ' --noemailreport2';
         $command .= ' --host1 "' . self::$host1 . '"';
         $command .= ' --host2 "' . self::$host2 . '"';
