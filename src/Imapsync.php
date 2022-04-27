@@ -292,97 +292,103 @@ class Imapsync
         return $this;
     }
 
-    public function getCommand(): string
+    public function getCommandArray(): array
     {
         if (!self::$host1 || !self::$host2 || !self::$password1 || !self::$password2 || !self::$user1 || !self::$user2) {
             throw new Exception('Insuficient parameters');
         }
-        $command = self::$imapsyncBinary;
+        $command = [];
+        $command[] = self::$imapsyncBinary;
         if (self::$dry) {
-            $command .= ' --dry';
+            $command[] = '--dry';
         }
         if (self::$log) {
-            $command .= ' --log';
+            $command[] = '--log';
         }
         if (self::$logdir) {
-            $command .= ' --logdir "' . self::$logdir . '"';
+            $command[] = '--logdir "' . self::$logdir . '"';
         }
         if (self::$logfilename) {
-            $command .= ' --logfile "' . self::$logfilename . '"';
+            $command[] = '--logfile "' . self::$logfilename . '"';
         }
         if (self::$pipemess) {
-          $command .= ' --pipemess "' . self::$pipemess . '"';
+          $command[] = '--pipemess "' . self::$pipemess . '"';
       }
         if (self::$timeout1) {
-            $command .= ' --timeout1 ' . self::$timeout1;
+            $command[] = '--timeout1 ' . self::$timeout1;
         }
         if (self::$timeout2) {
-            $command .= ' --timeout2 ' . self::$timeout2;
+            $command[] = '--timeout2 ' . self::$timeout2;
         }
         if (self::$nossl1) {
-            $command .= ' --nossl1';
+            $command[] = '--nossl1';
         }
         if (self::$nossl2) {
-            $command .= ' --nossl2';
+            $command[] = '--nossl2';
         }
         if (self::$xoauth1) {
-            $command .= ' --authmech1 XOAUTH2';
+            $command[] = '--authmech1 XOAUTH2';
         }
         if (self::$xoauth2) {
-            $command .= ' --authmech2 XOAUTH2';
+            $command[] = '--authmech2 XOAUTH2';
         }
         if (self::$authUser1) {
-            $command .= ' --authuser1 "' . self::$authUser1 . '"';
+            $command[] = '--authuser1 "' . self::$authUser1 . '"';
         }
         if (self::$authUser2) {
-            $command .= ' --authuser2 "' . self::$authUser2 . '"';
+            $command[] = '--authuser2 "' . self::$authUser2 . '"';
         }
         if (self::$gmail1) {
-          $command .= ' --gmail1';
+          $command[] = '--gmail1';
         }
         if (self::$gmail2) {
-          $command .= ' --gmail2';
+          $command[] = '--gmail2';
         }
         if (self::$office1) {
-          $command .= ' --office1';
+          $command[] = '--office1';
         }
         if (self::$office2) {
-          $command .= ' --office2';
+          $command[] = '--office2';
         }
         if (self::$nofoldersizes) {
-          $command .= ' --nofoldersizes';
+          $command[] = '--nofoldersizes';
         }
         if (self::$nofoldersizesatend) {
-          $command .= ' --nofoldersizesatend';
+          $command[] = '--nofoldersizesatend';
         }
         if (self::$excludeTrashFolders) {
-          $command .= " --exclude '^Lixeira|^Trash|^Deleted Items'";
+          $command[] = "--exclude '^Lixeira|^Trash|^Deleted Items'";
         }
         if (self::$filterbuggyflags) {
-          $command .= ' --filterbuggyflags';
+          $command[] = '--filterbuggyflags';
         }
         if (self::$maxsleep) {
-          $command .= ' --maxsleep ' . self::$maxsleep;
+          $command[] = '--maxsleep ' . self::$maxsleep;
         }
         if (self::$errorsmax) {
-          $command .= ' --errorsmax ' . self::$errorsmax;
+          $command[] = '--errorsmax ' . self::$errorsmax;
         }
         if (self::$truncmess) {
-          $command .= ' --truncmess ' . self::$truncmess;
+          $command[] = '--truncmess ' . self::$truncmess;
         }
         if (self::$appendlimit) {
-          $command .= ' --appendlimit ' . self::$appendlimit;
+          $command[] = '--appendlimit ' . self::$appendlimit;
         }
-        $command .= ' --noemailreport1';
-        $command .= ' --noemailreport2';
-        $command .= ' --host1 "' . self::$host1 . '"';
-        $command .= ' --host2 "' . self::$host2 . '"';
-        $command .= ' --user1 "' . self::$user1 . '"';
-        $command .= ' --user2 "' . self::$user2 . '"';
-        $command .= ' --password1 "' . self::$password1 . '"';
-        $command .= ' --password2 "' . self::$password2 . '"';
+        $command[] = '--noemailreport1';
+        $command[] = '--noemailreport2';
+        $command[] = '--host1 "' . self::$host1 . '"';
+        $command[] = '--host2 "' . self::$host2 . '"';
+        $command[] = '--user1 "' . self::$user1 . '"';
+        $command[] = '--user2 "' . self::$user2 . '"';
+        $command[] = '--password1 "' . self::$password1 . '"';
+        $command[] = '--password2 "' . self::$password2 . '"';
 
-        return escapeshellcmd($command);
+        return $command;
+    }
+
+    public function getCommand(): string
+    {
+        return escapeshellcmd(implode(' ', $this->getCommandArray()));
     }
 
     public function run(array &$output = []): int
