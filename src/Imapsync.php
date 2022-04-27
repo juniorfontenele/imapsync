@@ -34,6 +34,7 @@ class Imapsync
         102 => 'EXIT_CONNECTION_FAILURE_HOST2',
         161 => 'EXIT_AUTHENTICATION_FAILURE_USER1',
         162 => 'EXIT_AUTHENTICATION_FAILURE_USER2',
+        143 => 'TERMINATED_BY_SIGNAL',
     ];
 
     protected static bool $dry = false;
@@ -88,7 +89,7 @@ class Imapsync
 
     public static function getCodeMessage(int $code): string
     {
-        return self::$codes[$code];
+        return self::$codes[$code] ?? 'UNKNOWN';
     }
 
     public function simulate(bool $simulate = true): Imapsync
