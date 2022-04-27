@@ -38,8 +38,10 @@ class Imapsync
 
     protected static bool $dry = false;
     protected static bool $log = false;
+    protected static bool $pidfilelocking = false;
     protected static ?string $logfilename = null;
     protected static ?string $logdir = null;
+    protected static ?string $pidfile = null;
     protected static ?int $timeout1 = null;
     protected static ?int $timeout2 = null;
     protected static ?string $host1 = null;
@@ -106,6 +108,12 @@ class Imapsync
         return $this;
     }
 
+    public function pidfilelocking(bool $pidfilelocking = true): Imapsync
+    {
+        self::$pidfilelocking = $pidfilelocking;
+        return $this;
+    }
+
     public function logdir(?string $logdir): Imapsync
     {
         self::$logdir = $logdir;
@@ -115,6 +123,12 @@ class Imapsync
     public function logfilename(?string $logfilename): Imapsync
     {
         self::$logfilename = $logfilename;
+        return $this;
+    }
+
+    public function pidfile(?string $pidfile): Imapsync
+    {
+        self::$pidfile = $pidfile;
         return $this;
     }
 
@@ -310,6 +324,12 @@ class Imapsync
         }
         if (self::$logfilename) {
             $command[] = '--logfile "' . self::$logfilename . '"';
+        }
+        if (self::$pidfile) {
+          $command[] = '--pidfile "' . self::$pidfile . '"';
+        }
+        if (self::$pidfilelocking) {
+          $command[] = '--pidfilelocking';
         }
         if (self::$pipemess) {
           $command[] = '--pipemess "' . self::$pipemess . '"';
