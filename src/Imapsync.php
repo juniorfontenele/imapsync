@@ -334,7 +334,13 @@ class Imapsync
         }
         if (self::$pipemess) {
           $command[] = '--pipemess "' . self::$pipemess . '"';
-      }
+        }
+        if (self::$port1) {
+          $command[] = '--port1 ' . self::$port1;
+        }
+        if (self::$port2) {
+          $command[] = '--port2 ' . self::$port2;
+        }
         if (self::$timeout1) {
             $command[] = '--timeout1 ' . self::$timeout1;
         }
