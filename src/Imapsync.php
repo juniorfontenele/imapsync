@@ -407,15 +407,15 @@ class Imapsync
         $command[] = '--host2 "' . self::$host2 . '"';
         $command[] = '--user1 "' . self::$user1 . '"';
         $command[] = '--user2 "' . self::$user2 . '"';
-        $command[] = '--password1 \'' . self::$password1 . '\'';
-        $command[] = '--password2 \'' . self::$password2 . '\'';
+        $command[] = "--password1 '" . self::$password1 . "'";
+        $command[] = "--password2 '" . self::$password2 . "'";
 
         return $command;
     }
 
     public function getCommand(): string
     {
-        return escapeshellcmd(implode(' ', $this->getCommandArray()));
+        return implode(' ', $this->getCommandArray());
     }
 
     public function run(array &$output = []): int

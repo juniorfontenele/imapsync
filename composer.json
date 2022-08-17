@@ -1,7 +1,7 @@
 {
     "name": "juniorfontenele/imapsync",
     "description": "PHP Wrapper to Imapsync",
-    "version": "1.4.4",
+    "version": "1.4.5",
     "license": "MIT",
     "autoload": {
         "psr-4": {
